@@ -1,0 +1,21 @@
+version: "3.5"
+
+services: 
+  next-project-default:
+   container_name: next-project-default
+   build: 
+    context: .
+    dockerfile: Dockerfile
+   restart: always
+   ports:
+    - 3000:3000
+   volumes:
+    - .:/app/next-project-default
+    - /app/next-project-default/node_modules
+    - /app/next-project-default/.next
+   networks:
+    - front-network
+networks:
+  front-network:
+   name: front-network
+   external: true

@@ -1,0 +1,11 @@
+version: "3.5"
+
+services:
+  default-project-next:
+   container_name: default-project-next
+   build: 
+    context: .
+    dockerfile: Dockerfile-production
+   ports:
+    - "3000:3000"
+   restart: always
