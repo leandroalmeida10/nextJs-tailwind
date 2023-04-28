@@ -1,1 +1,1 @@
-export { getDataCosts } from './costs-services'
+export { getDataCosts } from './costs-services/index'

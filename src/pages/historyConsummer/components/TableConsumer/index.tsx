@@ -9,6 +9,7 @@ import Td from '../../../../components/TableBody/components/Td'
 import ExportTable from '../../../../components/ExportTable'
 import Paginate from '../../../../components/paginateTable'
 import { Content } from '../../../../services/costs-services/types'
+import { exportDataPDF } from '../../../../services/costs-services'
 
 interface propsTable {
   data: Content
@@ -18,7 +19,7 @@ export default function TableConsummer({ data }: propsTable) {
   console.log(data)
   return (
     <>
-      {data.items === undefined || data.items.length === 0 ? (
+      {data.items.length === 0 ? (
         <>
           <div>
             <h1>Não existem dados</h1>
@@ -51,7 +52,7 @@ export default function TableConsummer({ data }: propsTable) {
                 ))}
               </Body>
             </Table>
-            <ExportTable />
+            <ExportTable onClick={() => exportDataPDF()} />
           </TableContainer>
           <Paginate />
         </>

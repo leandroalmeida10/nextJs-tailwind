@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 
-export default function ExportTable() {
+interface propsExportTable {
+  onClick: MouseEventHandler
+}
+
+export default function ExportTable({ onClick }: propsExportTable) {
   return (
     <div className="text-center mt-5">
       <a
-        className="inline-flex items-center text-xs text-indigo-500 hover:text-blue-600 font-medium"
-        href="#"
+        className="inline-flex items-center text-xs hover:cursor-pointer text-indigo-500 hover:text-blue-600 font-medium"
+        onClick={onClick}
       >
         <span className="inline-block mr-2">
           <svg
