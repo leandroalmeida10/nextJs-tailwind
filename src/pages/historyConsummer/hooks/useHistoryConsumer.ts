@@ -33,13 +33,24 @@ export default function useHistoryConsumer() {
       getDataCosts(page, typeConsumer, dateInitialFormated, dateEndFormated),
   )
 
+  const ClearFilter = () => {
+    setDateInitial('')
+    setDateEnd('')
+    setDescription('')
+    setPage(1)
+  }
+
   return {
     typeConsult,
     page,
+    dateInitial,
+    dateEnd,
+    description,
     setPage,
     setDateInitial,
     setDateEnd,
     setDescription,
+    ClearFilter,
     typeConsumer,
     dateInitialFormated,
     dateEndFormated,

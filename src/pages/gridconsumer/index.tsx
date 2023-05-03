@@ -1,34 +1,32 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
-import CustomInput from '../../components/Input'
 import CardGrid from './components/CardGrid'
 import Loading from '../../components/Loading'
 import useGridConsumer from './hooks/useGridConsumer'
+import FilterGridConsumer from './components/Filter'
 
 export default function gridConsumer() {
-  const { data, isLoading, router, setDateEnd, setDateInitial } =
-    useGridConsumer()
+  const {
+    data,
+    isLoading,
+    router,
+    setDateEnd,
+    setDateInitial,
+    ClearFilter,
+    dateEnd,
+    dateInitial,
+  } = useGridConsumer()
   return (
     <section className="py-8">
       <Loading isVisible={isLoading} />
       <div className="container px-4 mx-auto">
-        <div className="inline-block mb-6">
-          <label className="block text-sm font-medium mb-2 ml-4">De:</label>
-          <CustomInput
-            mask="99/99/9999"
-            placeholder="dd/mm/aaaa"
-            onChange={(v) => setDateInitial(v.target.value)}
-          />
-        </div>
-
-        <div className="inline-block mb-6 ml-3">
-          <label className="block text-sm font-medium mb-2 ml-4">Até:</label>
-          <CustomInput
-            mask="99/99/9999"
-            placeholder="dd/mm/aaaa"
-            onChange={(v) => setDateEnd(v.target.value)}
-          />
-        </div>
+        <FilterGridConsumer
+          valueDateEnd={dateEnd}
+          valueDateInitial={dateInitial}
+          onChangeDateEnd={(v) => setDateEnd(v.target.value)}
+          onChangeDateInitial={(v) => setDateInitial(v.target.value)}
+          onClickButtonClear={ClearFilter}
+        />
 
         <div className="flex flex-wrap ">
           <CardGrid

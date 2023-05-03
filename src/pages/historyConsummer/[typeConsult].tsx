@@ -23,12 +23,16 @@ export default function TableConsummer() {
     dateEndFormated,
     dateInitialFormated,
     isLoading,
+    dateEnd,
+    dateInitial,
+    description,
     pageWithDetailsCost,
     typeConsumer,
     setDateEnd,
     setDateInitial,
     setDescription,
     setPage,
+    ClearFilter,
   } = useHistoryConsumer()
 
   return (
@@ -38,6 +42,11 @@ export default function TableConsummer() {
         onChangeDescription={(v) => setDescription(v.target.value)}
         setDateEnd={setDateInitial}
         setDateStart={setDateEnd}
+        onClickButtonClear={ClearFilter}
+        valueDateEnd={dateEnd}
+        valueDateInitial={dateInitial}
+        valueDescription={description}
+        pageWithDetailsCost={pageWithDetailsCost}
       />
       {pageWithDetailsCost && (
         <HistoryConsummer

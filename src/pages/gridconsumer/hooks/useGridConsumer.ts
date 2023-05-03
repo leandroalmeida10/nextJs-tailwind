@@ -23,10 +23,18 @@ export default function useGridConsumer() {
     () => getCountEndpointsConsumed(dateInitialFormated, dateEndFormated),
   )
 
+  const ClearFilter = () => {
+    setDateInitial('')
+    setDateEnd('')
+  }
+
   return {
     router,
     setDateInitial,
     setDateEnd,
+    ClearFilter,
+    dateInitial,
+    dateEnd,
     data,
     isLoading,
   }
