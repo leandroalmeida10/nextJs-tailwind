@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react'
 
 interface propsExportTable {
-  onClick: MouseEventHandler
+  onClick: MouseEventHandler<HTMLAnchorElement>
 }
 
 export default function ExportTable({ onClick }: propsExportTable) {

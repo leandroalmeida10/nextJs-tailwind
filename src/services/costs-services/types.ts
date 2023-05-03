@@ -29,3 +29,16 @@ export interface IRequestGetDataCosts {
   totalValueRebate?: string
   totalValueFinal?: string
 }
+
+export interface IResponseContentGetCountPerType {
+  quantityPF: number
+  quantityPj: number
+  quantityAdress: number
+  quantityVehicle: number
+}
+
+export interface IResponseGetCountPerType {
+  statusCode: number
+  message: string
+  content: IResponseContentGetCountPerType
+}

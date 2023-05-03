@@ -13,7 +13,6 @@ export default function Paginate({
   onClickNext,
   onClickPrevious,
 }: propsPaginate) {
-  console.log(totalPages)
   return (
     <div className="flex flex-col items-center">
       <p className="text-sm text-gray-700 dark:text-gray-400">

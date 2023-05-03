@@ -2,6 +2,8 @@ import React, { ChangeEventHandler } from 'react'
 import CustomInput from '../../../../components/Input'
 import DropdownCustom from '../../../../components/Dropdown'
 import { ItemsDropdown } from './utils/itemsDropdown'
+import { useRouter } from 'next/router'
+import { formatConsult } from '../../utils/format'
 
 interface PropsFilter {
   onChangeDescription: ChangeEventHandler<HTMLSelectElement>
@@ -13,6 +15,9 @@ export default function Filters({
   setDateEnd,
   setDateStart,
 }: PropsFilter) {
+  const router = useRouter()
+  const { typeConsult } = router.query
+  const pageWithOutDetailsCost = formatConsult(typeConsult?.toString()) === ''
   return (
     <section className=" my-10">
       <div className="container px-4 mx-auto">
@@ -37,15 +42,17 @@ export default function Filters({
             }}
           />
         </div>
-        <div className="inline-block ml-4">
-          <label className="block text-sm font-medium mb-2 ml-3">
-            Descrição
-          </label>
-          <DropdownCustom
-            items={ItemsDropdown}
-            onChange={onChangeDescription}
-          />
-        </div>
+        {pageWithOutDetailsCost && (
+          <div className="inline-block ml-4">
+            <label className="block text-sm font-medium mb-2 ml-3">
+              Descrição
+            </label>
+            <DropdownCustom
+              items={ItemsDropdown}
+              onChange={onChangeDescription}
+            />
+          </div>
+        )}
       </div>
     </section>
   )

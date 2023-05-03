@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TableContainer from '../../components/TableHead/components/TableContainer'
 import Table from '../../components/TableHead/components/TableHead'
 import TrHeadTable from '../../components/TableHead/components/TrHeadTable'
@@ -8,34 +8,28 @@ import Tr from '../../components/TableBody/components/Tr'
 import Td from '../../components/TableBody/components/Td'
 import ExportTable from '../../components/ExportTable'
 import Paginate from '../../components/paginateTable'
-import { IRequestGetDataCosts } from '../../services/costs-services/types'
-import { exportDataPDF, getDataCosts } from '../../services/costs-services'
-import { useQuery } from 'react-query'
 import Loading from '../../components/Loading'
 import HistoryConsummer from './components/CardConsumer'
-import { formatConsult, formatDescription } from './utils/format'
+import { formatDescription } from './utils/format'
 import Filters from './components/Filters'
 import { formatCurrency } from '../../utils/format'
-import { useRouter } from 'next/router'
+import Header from '../../components/TableHead/components/Header'
+import useHistoryConsumer from './hooks/useHistoryConsumer'
+import { exportDataPDF } from '../../services/costs-services'
 
 export default function TableConsummer() {
-  const router = useRouter()
-  const { typeConsult } = router.query
-  const pageWithOutDetailsCost = formatConsult(typeConsult?.toString()) === ''
-  const [page, setPage] = useState(1)
-  const [dateInitial, setDateInitial] = useState('')
-  const [dateEnd, setDateEnd] = useState('')
-  const [description, setDescription] = useState('')
-  const { data, isLoading } = useQuery<IRequestGetDataCosts>(
-    [
-      'get-costs',
-      page,
-      pageWithOutDetailsCost
-        ? description
-        : formatConsult(typeConsult?.toString()),
-    ],
-    () => getDataCosts(page, description),
-  )
+  const {
+    data,
+    dateEndFormated,
+    dateInitialFormated,
+    isLoading,
+    pageWithDetailsCost,
+    typeConsumer,
+    setDateEnd,
+    setDateInitial,
+    setDescription,
+    setPage,
+  } = useHistoryConsumer()
 
   return (
     <>
@@ -45,7 +39,7 @@ export default function TableConsummer() {
         setDateEnd={setDateInitial}
         setDateStart={setDateEnd}
       />
-      {pageWithOutDetailsCost && (
+      {pageWithDetailsCost && (
         <HistoryConsummer
           totalQuantityConsultFree={data?.totalQuantityConsultFree ?? '0'}
           totalQuantityConsultPay={data?.totalQuantityConsultPay ?? '0'}
@@ -56,22 +50,26 @@ export default function TableConsummer() {
       )}
       <TableContainer>
         <Table>
-          <TrHeadTable>
-            <ThHeadTable>Data de consumo</ThHeadTable>
-            <ThHeadTable>Descrição</ThHeadTable>
-            <ThHeadTable>Consultas Gratuitas</ThHeadTable>
-            <ThHeadTable>Consultas pagas</ThHeadTable>
-            <ThHeadTable>Base de valor</ThHeadTable>
-            <ThHeadTable>Desconto consumo</ThHeadTable>
-            <ThHeadTable>Valor final</ThHeadTable>
-          </TrHeadTable>
+          <Header>
+            <TrHeadTable>
+              <ThHeadTable>Data de consumo</ThHeadTable>
+              {pageWithDetailsCost && <ThHeadTable>Descrição</ThHeadTable>}
+              <ThHeadTable>Consultas Gratuitas</ThHeadTable>
+              <ThHeadTable>Consultas pagas</ThHeadTable>
+              <ThHeadTable>Base de valor</ThHeadTable>
+              <ThHeadTable>Desconto consumo</ThHeadTable>
+              <ThHeadTable>Valor final</ThHeadTable>
+            </TrHeadTable>
+          </Header>
           <Body>
             {data! !== undefined &&
               data!.data!.content!.items!.length > 0 &&
               data!.data?.content!.items!.map((element) => (
                 <Tr key={element.id}>
                   <Td>{element.createdAt}</Td>
-                  <Td>{formatDescription(element.typeConsume)}</Td>
+                  {pageWithDetailsCost && (
+                    <Td>{formatDescription(element.typeConsume)}</Td>
+                  )}
                   <Td>{element.quantityConsultFree}</Td>
                   <Td>{element.quantityConsultPay}</Td>
                   <Td>
@@ -99,7 +97,11 @@ export default function TableConsummer() {
               ))}
           </Body>
         </Table>
-        <ExportTable onClick={() => exportDataPDF()} />
+        <ExportTable
+          onClick={() =>
+            exportDataPDF(dateInitialFormated, dateEndFormated, typeConsumer)
+          }
+        />
       </TableContainer>
       <Paginate
         actualPage={data !== undefined ? data!.data?.content.atualPage : 0}

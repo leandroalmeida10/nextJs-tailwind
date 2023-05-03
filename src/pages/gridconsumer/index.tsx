@@ -1,41 +1,42 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import CustomInput from '../../components/Input'
-import { useRouter } from 'next/router'
+import CardGrid from './components/CardGrid'
+import Loading from '../../components/Loading'
+import useGridConsumer from './hooks/useGridConsumer'
 
 export default function gridConsumer() {
-  const router = useRouter()
+  const { data, isLoading, router, setDateEnd, setDateInitial } =
+    useGridConsumer()
   return (
     <section className="py-8">
+      <Loading isVisible={isLoading} />
       <div className="container px-4 mx-auto">
         <div className="inline-block mb-6">
-          <label className="block text-sm font-medium mb-2">De:</label>
-          <CustomInput mask="99/99/9999" placeholder="dd/mm/aaaa" />
+          <label className="block text-sm font-medium mb-2 ml-4">De:</label>
+          <CustomInput
+            mask="99/99/9999"
+            placeholder="dd/mm/aaaa"
+            onChange={(v) => setDateInitial(v.target.value)}
+          />
         </div>
 
         <div className="inline-block mb-6 ml-3">
-          <label className="block text-sm font-medium mb-2">Até:</label>
-          <CustomInput mask="99/99/9999" placeholder="dd/mm/aaaa" />
+          <label className="block text-sm font-medium mb-2 ml-4">Até:</label>
+          <CustomInput
+            mask="99/99/9999"
+            placeholder="dd/mm/aaaa"
+            onChange={(v) => setDateEnd(v.target.value)}
+          />
         </div>
 
-        {/* <div className="inline-block mb-6 ml-3">
-          <label className="block text-sm font-medium mb-6">
-            Categoria:
-            <select className="block px-4 py-3 mb-2 text-sm placeholder-gray-500 bg-white border rounded-full">
-              <option>-- Selecione a opção --</option>
-              <option>Gratuitos</option>
-              <option>Pagos</option>
-            </select>
-          </label>
-        </div> */}
-
         <div className="flex flex-wrap ">
-          <div
-            className="w-full md:w-1/2 p-4 hover:cursor-pointer hover:scale-110 ease-in-out transition duration-75"
+          <CardGrid
             onClick={() => router.push('/historyConsummer/VEHICLE')}
-          >
-            <div className="p-6 text-center bg-white rounded shadow">
-              <span className="inline-block mx-auto">
+            label="Veículos"
+            value={data?.content.quantityVehicle ?? 0}
+            IconCard={
+              <>
                 <svg
                   width="28"
                   height="28"
@@ -48,18 +49,15 @@ export default function gridConsumer() {
                     fill="#8128DE"
                   ></path>
                 </svg>
-              </span>
-              <h3 className="mt-3 mb-1 text-3xl font-bold">1 450</h3>
-              <p className="text-sm text-gray-600 font-medium">Veículos</p>
-            </div>
-          </div>
-
-          <div
-            className="w-full md:w-1/2 p-4 hover:cursor-pointer hover:scale-110 ease-in-out transition duration-75"
+              </>
+            }
+          />
+          <CardGrid
             onClick={() => router.push('/historyConsummer/ADRESS')}
-          >
-            <div className="p-6 text-center bg-white rounded shadow">
-              <span className="inline-block mx-auto">
+            label="Endereços"
+            value={data?.content.quantityAdress ?? 0}
+            IconCard={
+              <>
                 <svg
                   width="28"
                   height="26"
@@ -72,18 +70,15 @@ export default function gridConsumer() {
                     fill="#17BB84"
                   ></path>
                 </svg>
-              </span>
-              <h3 className="mt-3 mb-1 text-3xl font-bold">54</h3>
-              <p className="text-sm text-gray-600 font-medium">Endereços</p>
-            </div>
-          </div>
-
-          <div
-            className="w-full md:w-1/2 p-4 hover:cursor-pointer hover:scale-110 ease-in-out transition duration-75"
+              </>
+            }
+          />
+          <CardGrid
             onClick={() => router.push('/historyConsummer/PF')}
-          >
-            <div className="p-6 text-center bg-white rounded shadow">
-              <span className="inline-block mx-auto">
+            label="Pessoa física"
+            value={data?.content.quantityPF ?? 0}
+            IconCard={
+              <>
                 <svg
                   width="22"
                   height="28"
@@ -96,18 +91,16 @@ export default function gridConsumer() {
                     fill="#F67A28"
                   ></path>
                 </svg>
-              </span>
-              <h3 className="mt-3 mb-1 text-3xl font-bold">492</h3>
-              <p className="text-sm text-gray-600 font-medium">Pessoa Fisica</p>
-            </div>
-          </div>
+              </>
+            }
+          />
 
-          <div
-            className="w-full md:w-1/2 p-4 hover:cursor-pointer hover:scale-110 ease-in-out transition duration-75"
+          <CardGrid
             onClick={() => router.push('/historyConsummer/PJ')}
-          >
-            <div className="p-6 text-center bg-white rounded shadow">
-              <span className="inline-block mx-auto">
+            label="Pessoa Jurídica"
+            value={data?.content.quantityPj ?? 0}
+            IconCard={
+              <>
                 <svg
                   width="28"
                   height="28"
@@ -120,13 +113,9 @@ export default function gridConsumer() {
                     fill="#2D70F5"
                   ></path>
                 </svg>
-              </span>
-              <h3 className="mt-3 mb-1 text-3xl font-bold">235</h3>
-              <p className="text-sm text-gray-600 font-medium">
-                Pessoa Juridica
-              </p>
-            </div>
-          </div>
+              </>
+            }
+          />
         </div>
       </div>
     </section>
