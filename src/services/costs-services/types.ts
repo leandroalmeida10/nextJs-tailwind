@@ -1,20 +1,20 @@
 export interface Item {
-  id: string
+  id: number
   typeConsume: string
   endpointConsumed: string
-  quantityConsultFree: string
-  quantityConsultPay: string
-  valueBase: string
-  valueRebate: string
-  valueTotal: string
+  quantityConsultFree: number
+  quantityConsultPay: number
+  valueBase: number
+  valueRebate: number
+  valueTotal: number
   createdAt: string
 }
 export interface Content {
-  atualPage: string
-  totalRegisters: string
-  totalPages: string
-  registersPerPage: string
-  items: Item[]
+  atualPage?: number
+  items?: Item[]
+  registersPerPage?: number
+  totalPages?: number
+  totalRegisters?: number
 }
 export interface Data {
   statusCode: number
@@ -22,10 +22,10 @@ export interface Data {
   content: Content
 }
 export interface IRequestGetDataCosts {
-  data: Data
-  totalQuantityConsultFree: string
-  totalQuantityConsultPay: string
-  totalValueBase: string
-  totalValueRebate: string
-  totalValueFinal: string
+  data?: Data
+  totalQuantityConsultFree?: string
+  totalQuantityConsultPay?: string
+  totalValueBase?: string
+  totalValueRebate?: string
+  totalValueFinal?: string
 }

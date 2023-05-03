@@ -1,15 +1,22 @@
 import React from 'react'
-import TableConsummer from './components/TableConsumer'
-import { useQuery } from 'react-query'
-import { getDataCosts } from '../../services'
-import { IRequestGetDataCosts } from '../../services/costs-services/types'
-
-export default function HistoryConsummer() {
-  const { data } = useQuery<IRequestGetDataCosts>('get-costs', getDataCosts)
-  console.log(data)
+import { formatCurrency } from '../../../../utils/format'
+interface propsHistoryConsummer {
+  totalQuantityConsultFree?: string
+  totalQuantityConsultPay?: string
+  totalValueBase?: string
+  totalValueRebate?: string
+  totalValueFinal?: string
+}
+export default function HistoryConsummer({
+  totalQuantityConsultFree,
+  totalQuantityConsultPay,
+  totalValueBase,
+  totalValueFinal,
+  totalValueRebate,
+}: propsHistoryConsummer) {
   return (
     <>
-      <section className="py-8">
+      <section className="pb-8">
         <div className="container px-4 mx-auto">
           <div className="pt-4 bg-white shadow rounded">
             <div className="flex px-6 pb-3 border-b">
@@ -21,31 +28,36 @@ export default function HistoryConsummer() {
               <p className="pb-2  text-gray-900">
                 Total de consultas gratuitas:
                 <span className="font-bold pl-1">
-                  {data?.totalQuantityConsultFree}
+                  {totalQuantityConsultFree}
                 </span>
               </p>
               <p className="pb-2  text-gray-900">
                 Total de consultas pagas:
                 <span className="font-bold pl-1">
-                  {data?.totalQuantityConsultPay}
+                  {totalQuantityConsultPay}
                 </span>
               </p>
               <p className="pb-2  text-gray-900">
                 Base total de valor:
-                <span className="font-bold pl-1">{data?.totalValueBase}</span>
+                <span className="font-bold pl-1">
+                  {formatCurrency(totalValueBase)}
+                </span>
               </p>
               <p className="pb-2  text-gray-900">
                 Total de consumo:
-                <span className="font-bold pl-1">{data?.totalValueRebate}</span>
+                <span className="font-bold pl-1">
+                  {formatCurrency(totalValueRebate)}
+                </span>
               </p>
               <p className="pb-2  text-gray-900">
                 Total de valor final:
-                <span className="font-bold pl-1">{data?.totalValueFinal}</span>
+                <span className="font-bold pl-1">
+                  {formatCurrency(totalValueFinal)}
+                </span>
               </p>
             </div>
           </div>
         </div>
-        <TableConsummer data={data?.data.content!} />
       </section>
     </>
   )

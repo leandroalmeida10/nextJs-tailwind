@@ -1,34 +1,50 @@
-import React from 'react'
-import { useQuery } from 'react-query'
-import { getDataCosts } from '../../services'
+import React, { MouseEventHandler } from 'react'
 
-export default function Paginate() {
-  const { data, isLoading } = useQuery('getcosts', getDataCosts)
+interface propsPaginate {
+  actualPage?: number
+  totalPages?: number
+  onClickPrevious: MouseEventHandler<HTMLButtonElement>
+  onClickNext: MouseEventHandler<HTMLButtonElement>
+}
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+export default function Paginate({
+  actualPage,
+  totalPages,
+  onClickNext,
+  onClickPrevious,
+}: propsPaginate) {
+  console.log(totalPages)
   return (
     <div className="flex flex-col items-center">
-      <span className="text-sm text-gray-700 dark:text-gray-400">
-        Atual{data.atualPage}
-        <span className="font-semibold text-gray-900 dark:text-white">
-          {data.atualPage}
+      <p className="text-sm text-gray-700 dark:text-gray-400">
+        Atual
+        <span className="font-semibold text-gray-900 ms-1 mr-1">
+          {actualPage ?? 0}
         </span>
-        de{data.totalPages}
-        <span className="font-semibold text-gray-900 dark:text-white">
-          {data.totalPages}
+        de
+        <span className="font-semibold text-gray-900 ms-1 mr-1">
+          {totalPages ?? 0}
         </span>
-        Entries
-      </span>
-      <div className="inline-flex mt-2 xs:mt-0">
-        <button className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-          Anterior
-        </button>
-        <button className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-          Proximo
-        </button>
-      </div>
+        Páginas
+      </p>
+      {totalPages !== undefined && totalPages! > 1 && (
+        <div className="inline-flex mt-2 xs:mt-0">
+          <button
+            disabled={actualPage === 1}
+            onClick={onClickPrevious}
+            className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            Anterior
+          </button>
+          <button
+            disabled={actualPage === totalPages}
+            onClick={onClickNext}
+            className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            Proximo
+          </button>
+        </div>
+      )}
     </div>
   )
 }

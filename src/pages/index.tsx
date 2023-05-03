@@ -1,10 +1,10 @@
 import React from 'react'
-import HistoryConsummer from './historyConsummer'
+import TableConsummer from './historyConsummer/[typeConsult]'
 
 export default function Home() {
   return (
     <>
-      <HistoryConsummer />
+      <TableConsummer />
     </>
   )
 }

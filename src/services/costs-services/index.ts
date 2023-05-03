@@ -1,9 +1,14 @@
 import axios from 'axios'
 
-export async function getDataCosts() {
+export async function getDataCosts(page: number, description: string) {
+  const params = {
+    page,
+    endpoint: description,
+  }
   const response = await axios.get(
-    'http://localhost:8003/v1/activity-logs/onboard/list-detailed',
+    'http://localhost:8003/v1/activity-logs/onboard/list-detailed?endpoint',
     {
+      params,
       headers: {
         Authorization: 'Bearer 5870|jv3kkRnM29aau2KNuPeo3TqvRHHTjrKqyCNK4eY8',
         'Content-Type': 'application/json',
